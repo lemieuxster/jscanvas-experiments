@@ -1,0 +1,35 @@
+<html>
+   <head>
+      <title>Block Maker</title>
+      <script src="Quadrant.js" type="text/javascript"></script>
+      <style>
+         body {
+            padding: 0;
+            margin: 0;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="sourceImageHolder"></div>
+      <script type="text/javascript">
+         try {
+           //Set the container
+           Quadrant.imageHolder = document.getElementById("sourceImageHolder");
+           //Set the image URL (relative for now, be aware of cross domain security issues)
+           Quadrant.imageUrl = "input/launchPad.jpg";
+           //Set options, full set includes
+           //   - drawFills (true to render fills, default true)
+           //   - drawStrokes (true to render lines, default true)
+           //   - minSize (minimum quadrant dimension either w or h, default 2)
+           //   - colorThreshold (value used for matching color similarity, default 25)
+           //   - backgroundColor (color used on the canvas background, default "#111")
+           Quadrant.options.colorThreshold = 25;
+           Quadrant.options.minSize = 2;
+           //Render
+           Quadrant.render();
+        } catch (e) {
+           console.log(e);
+        }
+      </script>
+   </body>
+</html>
