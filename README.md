@@ -14,7 +14,7 @@ than the minimum area. If the conditions are met, the quadrant is filled with th
 * Block - Just traverses the image from the top left at a given block size and rerenders the block with the average color of its contents.
 (see block/BlockMaker.js /coming soon/ or http://www.lemieuxster.com/dev/js/blockmaker/index.html)
 
-*Copyright 2011 David LeMieux*
+*Created 2011 David LeMieux*
 
 *I just looked at the project and asked myself how it was done; I then came up with the solution on my own. I have not read the
 ajpeg compression algorithm nor do I know how it is implemented. Any similarity is coincidence.
