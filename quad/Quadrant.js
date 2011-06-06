@@ -162,7 +162,7 @@
                 quadrantMaker.imageHolder.removeChild(dupCanvas);
                 quadrantMaker.imageHolder.appendChild(img);
             } else {
-                if (chunkCount > chunkSize) {
+                if (chunkCount <= chunkSize) {
                     quadrantMaker.drawQuads();
                 } else {
                     chunkCount = 0;
