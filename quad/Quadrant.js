@@ -1,5 +1,5 @@
 (function() {
-    var dupCanvas, dupContext, blockCanvas, blockContext, rectQueue = [],
+    var dupCanvas, dupContext, blockCanvas, blockContext, rectQueue = [], chunkCount = 0, chunkSize = 10,
 
     load_image = function(imageUrl, callback) {
         var img = new Image();
@@ -72,7 +72,8 @@
             drawStrokes : true,
             minSize : 2,
             colorThreshold : 25,
-            backgroundColor : "#111"
+            backgroundColor : "#111",
+            chunkSize : 10
         },
         render : function() {
             dupCanvas = document.createElement("canvas");
@@ -84,6 +85,8 @@
             this.imageHolder.appendChild(blockCanvas);
             blockContext = blockCanvas.getContext("2d");
             //this.blockCanvas.style.display = "none";
+
+            chunkSize = (this.options.chunkSize > 0) ? this.options.chunkSize : chunkSize;
 
             var quadrantMaker = this;
             load_image(this.imageUrl, function(imgObj) {
@@ -105,6 +108,7 @@
             });
         },
         drawQuads : function() {
+            chunkCount++;
             var quadrantMaker = this;
             var tempCanvas = document.createElement("canvas");
             var tempContext = tempCanvas.getContext("2d");
@@ -150,6 +154,7 @@
 
 
             if (rectQueue.length === 0) {
+                chunkCount = 0
                 var img = new Image();
                 img.src = blockCanvas.toDataURL();
                 blockCanvas.style.display = "none";
@@ -157,9 +162,14 @@
                 quadrantMaker.imageHolder.removeChild(dupCanvas);
                 quadrantMaker.imageHolder.appendChild(img);
             } else {
-                setTimeout(function() {
-                    quadrantMaker.drawQuads()
-                }, 2);
+                if (chunkCount > chunkSize) {
+                    quadrantMaker.drawQuads();
+                } else {
+                    chunkCount = 0;
+                    setTimeout(function() {
+                        quadrantMaker.drawQuads()
+                    }, 2);
+                }
             }
         }
     };
