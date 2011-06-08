@@ -12,7 +12,7 @@
     },
 
     getAverageColor = function(cavasObjContext, rect) {
-        var imgd = cavasObjContext.getImageData(0, 0, Math.ceil(rect.width), Math.ceil(rect.height));
+        var imgd = cavasObjContext.getImageData(0, 0, Math.floor(rect.width), Math.floor(rect.height));
         var pix = imgd.data;
         var r = 0, b = 0, g = 0, a = 0;
         var count = 0;
@@ -33,7 +33,7 @@
     },
 
     matchesColorThreshold = function(canvasObjContext, rect, threshold) {
-        var imgd = canvasObjContext.getImageData(0, 0, Math.ceil(rect.width), Math.ceil(rect.height));
+        var imgd = canvasObjContext.getImageData(0, 0, Math.floor(rect.width), Math.floor(rect.height));
         var pix = imgd.data;
         var r = 0, b = 0, g = 0, a = 0;
         var oldr, oldb, oldg, olda;
@@ -115,6 +115,8 @@
 
             try {
                 var rect = rectQueue.shift();
+                tempCanvas.width = rect.width;
+                tempCanvas.height = rect.height;
                 var imgdata = dupContext.getImageData(rect.x, rect.y, rect.width, rect.height);
                 tempContext.putImageData(imgdata, 0, 0);
 
