@@ -1,5 +1,7 @@
 (function() {
-    var dupCanvas, dupContext, blockCanvas, blockContext, rectQueue = [], chunkCount = 0, chunkSize = 10,
+    var fragment = document.createDocumentFragment(),
+    dupCanvas, dupContext, blockCanvas, blockContext, 
+    rectQueue = [], chunkCount = 0, chunkSize = 10,
 
     load_image = function(imageUrl, callback) {
         var img = new Image();
@@ -77,7 +79,7 @@
         },
         render : function() {
             dupCanvas = document.createElement("canvas");
-            this.imageHolder.appendChild(dupCanvas);
+            fragment.appendChild(dupCanvas);
             dupContext = dupCanvas.getContext("2d");
             dupCanvas.style.display = "none";
 
@@ -161,7 +163,7 @@
                 img.src = blockCanvas.toDataURL();
                 blockCanvas.style.display = "none";
                 quadrantMaker.imageHolder.removeChild(blockCanvas);
-                quadrantMaker.imageHolder.removeChild(dupCanvas);
+                fragment.removeChild(dupCanvas);
                 quadrantMaker.imageHolder.appendChild(img);
             } else {
                 if (chunkCount <= chunkSize) {
