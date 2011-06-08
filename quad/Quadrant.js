@@ -2,6 +2,8 @@
     var fragment = document.createDocumentFragment(),
     dupCanvas, dupContext, blockCanvas, blockContext, 
     rectQueue = [], chunkCount = 0, chunkSize = 10,
+    drawFills = true, drawStrokes = true, minSize = 2,
+    colorThreshold = 25,
 
     load_image = function(imageUrl, callback) {
         var img = new Image();
@@ -89,6 +91,16 @@
             //this.blockCanvas.style.display = "none";
 
             chunkSize = (this.options.chunkSize > 0) ? this.options.chunkSize : chunkSize;
+            
+            minSize = this.options.minSize;
+            minSize = minSize < 2 ? 2 : minSize;
+
+            colorThreshold = this.options.colorThreshold;
+            colorThreshold = colorThreshold < 2 ? 2 : colorThreshold;
+            colorThreshold = colorThreshold > 255 ? 255 : colorThreshold;
+
+            drawFills = this.options.drawFills;
+            drawStrokes = this.options.drawStrokes;
 
             var quadrantMaker = this;
             load_image(this.imageUrl, function(imgObj) {
@@ -121,16 +133,6 @@
                 tempCanvas.height = rect.height;
                 var imgdata = dupContext.getImageData(rect.x, rect.y, rect.width, rect.height);
                 tempContext.putImageData(imgdata, 0, 0);
-
-                var minSize = quadrantMaker.options.minSize;
-                minSize = minSize < 2 ? 2 : minSize;
-
-                var colorThreshold = quadrantMaker.options.colorThreshold;
-                colorThreshold = colorThreshold < 2 ? 2 : colorThreshold;
-                colorThreshold = colorThreshold > 255 ? 255 : colorThreshold;
-
-                var drawFills = quadrantMaker.options.drawFills;
-                var drawStrokes = quadrantMaker.options.drawStrokes;
 
                 if (rect.width < minSize || rect.height < minSize || matchesColorThreshold(tempContext, rect, colorThreshold)) {
                     var newColor = getAverageColor(tempContext, rect);
